@@ -1,0 +1,69 @@
+<!-- index.html -->
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <!-- Optimize mobile viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Digital Garage Quickstart Vue.js Application</title>
+    <!-- get bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <!-- get jquery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+
+</head>
+<!-- add our angularjs module and controller -->
+
+<body ng-app="helloWorld" ng-controller="MainCtrl">
+    
+<div id="app">
+  <v-app id="inspire">
+    <v-card dark>
+      <v-card-title>
+        
+        <v-spacer></v-spacer>
+        <v-text-field
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+          v-model="search"
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table 
+        :headers="headers"
+        :items="items"
+        :search="search">
+        <template slot="items" slot-scope="props">
+          <td class="text-xs-right">{{ props.item.id }}</td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+        </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
+      </v-data-table>
+    </v-card>
+  </v-app>
+</div>
+    
+
+    
+    <!-- get vue.js -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/vuetify@1.0.4/dist/vuetify.min.js"></script>
+  <script src="https://unpkg.com/babel-polyfill/dist/polyfill.min.js"></script>
+    <!-- create the Vue.js instance  -->
+    <script src="app.js"></script>
+
+</body>
+    
+
+
+</html>
