@@ -1,73 +1,39 @@
 <head>
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <!--script src="./js/clientapp.js"></script>-->
 <div id="app">
-  <v-app id="app">
-    <v-toolbar dark fixed app>
-      <v-toolbar-side-icon 
-        @click.native.stop="sideNav = !sideNav" 
-        ></v-toolbar-side-icon>
-      <v-toolbar-title>
-      <router-link to="/" tag="span" style="cursor: pointer">Poker</router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-    </v-toolbar>
-  <v-navigation-drawer temporary dark v-model="sideNav" clipped fixed app>
-      <v-list>
-        <v-list-tile 
-        v-for="item in menuItems" 
-        :key="item.title" 
-        router
-        :to="item.link"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>  
-    
-    <main>
-      <v-content>
-    <router-view>
-    </router-view>  
-    </v-content>          
-    </main>
+  <v-app id="inspire">
+    <v-card dark>
+      <v-card-title>
+        
+        <v-spacer></v-spacer>
+        <v-text-field
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+          v-model="search"
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table 
+        :headers="headers"
+        :items="items"
+        :search="search">
+        <template slot="items" slot-scope="props">
+          <td class="text-xs-right">{{ props.item.id }}</td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+        </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
+      </v-data-table>
+    </v-card>
   </v-app>
-    <h1>Hello App!</h1>
-    <p>
-      <!-- use router-link component for navigation. -->
-      <!-- specify the link by passing the `to` prop. -->
-      <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-      <router-link to="/foo">Go to Foo</router-link>
-      <router-link to="/bar">Go to Bar</router-link>
-      <router-link to="/grid2">Go to Bar</router-link>
-      <router-link to="/user/20">Go to Bar</router-link><!--example of routing with parameters-->
-      <router-link to="/user/30">Go to Bar</router-link><!--example of routing with parameters-->
-    </p>
-    <div>
-        <blog-post
-        v-for="post in posts"
-        v-bind:key="post.id"
-        v-bind:title="post.title"
-      ></blog-post>
-    </div>
-    <div>
-      <my-component></my-component>
-    </div>
-  
-
-    <!-- route outlet -->
-    <!-- component matched by the route will render here -->
-    <router-view></router-view>
-      <m></m>
-  </div>
+</div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.min.js"></script>
