@@ -6,34 +6,34 @@
 </head>
 <!--script src="./js/clientapp.js"></script>-->
 <div id="app">
-  <v-app id="inspire">
-    <v-card dark>
-      <v-card-title>
-        
-        <v-spacer></v-spacer>
-        <v-text-field
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-          v-model="search"
-        ></v-text-field>
-      </v-card-title>
-      <v-data-table 
-        :headers="headers"
-        :items="items"
-        :search="search">
-        <template slot="items" slot-scope="props">
-          <td class="text-xs-right">{{ props.item.id }}</td>
-          <td class="text-xs-right">{{ props.item.title }}</td>
-        </template>
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-          Your search for "{{ search }}" found no results.
-        </v-alert>
-      </v-data-table>
-    </v-card>
-  </v-app>
-</div>
+    <h1>Hello App!</h1>
+    <p>
+      <!-- use router-link component for navigation. -->
+      <!-- specify the link by passing the `to` prop. -->
+      <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
+      <router-link to="/foo">Go to Foo</router-link>
+      <router-link to="/bar">Go to Bar</router-link>
+      <router-link to="/grid2">Go to Bar</router-link>
+      <router-link to="/user/20">Go to Bar</router-link><!--example of routing with parameters-->
+      <router-link to="/user/30">Go to Bar</router-link><!--example of routing with parameters-->
+    </p>
+    <div>
+        <blog-post
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:title="post.title"
+      ></blog-post>
+    </div>
+    <div>
+      <my-component></my-component>
+    </div>
+  
+
+    <!-- route outlet -->
+    <!-- component matched by the route will render here -->
+    <router-view></router-view>
+      <m></m>
+  </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.min.js"></script>
