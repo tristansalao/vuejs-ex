@@ -1,12 +1,27 @@
 <head>
-  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+
 </head>
+<body>
 <!--script src="./js/clientapp.js"></script>-->
 <v-app id="app">
 <div id="app">
+  <template>
+  <v-toolbar dark fixed app>
+      <v-toolbar-side-icon 
+        @click.native.stop="sideNav = !sideNav" 
+        ></v-toolbar-side-icon>
+      <v-toolbar-title>
+      <router-link to="/" tag="span" style="cursor: pointer">Poker</router-link>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
     <h1>Hello App!</h1>
     <p>
       <!-- use router-link component for navigation. -->
@@ -34,11 +49,19 @@
     <!-- component matched by the route will render here -->
     <router-view></router-view>
       <m></m>
+      </template>
   </div>
   </v-app>
-  
+
+  </body>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.1/vue-router.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/vuetify@1.0.4/dist/vuetify.min.js"></script>
+  <script src="https://unpkg.com/babel-polyfill/dist/polyfill.min.js"></script>
   <script src="./components/grid2.js"></script>
   
   <script type="text/x-template" id="my-component">
