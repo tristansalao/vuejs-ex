@@ -22,33 +22,52 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
-    <h1>Hello App!</h1>
-    <p>
-      <!-- use router-link component for navigation. -->
-      <!-- specify the link by passing the `to` prop. -->
-      <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-      <router-link to="/foo">Go to Foo</router-link>
-      <router-link to="/bar">Go to Bar</router-link>
-      <router-link to="/grid2">Go to Bar</router-link>
-      <router-link to="/user/20">Go to Bar</router-link><!--example of routing with parameters-->
-      <router-link to="/user/30">Go to Bar</router-link><!--example of routing with parameters-->
-    </p>
-    <div>
-        <blog-post
-        v-for="post in posts"
-        v-bind:key="post.id"
-        v-bind:title="post.title"
-      ></blog-post>
-    </div>
-    <div>
-      <my-component></my-component>
-    </div>
-  
 
-    <!-- route outlet -->
-    <!-- component matched by the route will render here -->
-    <router-view></router-view>
-      <m></m>
+    <v-navigation-drawer temporary dark v-model="sideNav" clipped fixed app>
+      <v-list>
+        <v-list-tile 
+        v-for="item in menuItems" 
+        :key="item.title" 
+        router
+        :to="item.link"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
+      <v-card dark>
+      <v-card-title>
+        
+        <v-spacer></v-spacer>
+        <v-text-field
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+          v-model="search"
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table 
+        :headers="headers"
+        :items="items"
+        :search="search">
+        <template slot="items" slot-scope="props">
+          <td class="text-xs-right">{{ props.item.id }}</td>
+          <td class="text-xs-right">{{ props.item.title }}</td>
+        </template>
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+          Your search for "{{ search }}" found no results.
+        </v-alert>
+      </v-data-table>
+    </v-card>
+  </v-app>
+</div>
       </template>
   </div>
   </v-app>
@@ -70,78 +89,58 @@
   </script>
 
   <script>
-    //Vue.Components dosn't need to be assigned because it gets assigned in new Vew right away
-  Vue.component('blog-post', {//string example
-    props: ['title'],
-    template: '<h3>{{ title }}</h3>'
-  });
-Vue.component('my-component', {//x-template example
-  template: '#my-component'
-});
-  // 1. Define route components.
-  // These can be imported from other files
-  const Foo = { template: '<div>foo</div>' };
-  const Bar= { template: '<div>Bar</div>' };
-
-  const User = {   
-    props: ['id'], //parms with routing  
-    template: '<div>User {{ id }}</div>',
-    created: function () {//will trigger only on creation will not re acess if already created goes hand in hand with watch
-    alert('upon creation test event from routing with params');
-    },
-    watch: {//watchers are used to check routing parameter changes instead of creation goes hand in hand with watch
-    '$route' (to, from) {//will trigger only on pre created and same url but with diffrent params
-      // react to route changes...
-      alert('upon re routed test event from routing with params');
+new Vue({
+  el: '#app',
+  created: function(){
+      this.getData()
+  },
+  methods: {
+      getData: function(){
+                        var vm = this;
+                        $.ajax({
+                            url: 'https://jsonplaceholder.typicode.com/posts',
+                            method: 'GET'
+                        }).then(function (data) {
+                            vm.items = data;     
+                        });                             
+      }
+  },
+  data () {
+    return {
+      sideNav: false,
+      menuItems: [
+        { icon: 'home', title: 'Home', link: '/'},
+        { icon: 'credit_card', title: 'Calculate', link: '/calculate'},
+        { icon: 'android', title: 'Android', link: '/android'},
+        { icon: 'calendar_today', title: 'Calendar', link: '/calendar'},
+        { icon: 'notification_important', title: 'Alert', link: '/alert'},
+        { icon: 'file_copy', title: 'Files', link: '/files'}
+      ],
+      search: '',
+      headers: [
+        {
+          text: 'No.',
+          align: 'left',
+          sortable: false,
+          value: 'no'
+        },
+        { text: 'HO ID', value: 'hoid', sortable: false },
+        { text: 'Commission', value: 'commission' },
+        { text: 'Deposit', value: 'deposit' },
+        { text: 'Deposit(Transfer)', value: 'deptransfer' },
+        { text: 'Withdraw', value: 'withdraw' },
+        { text: 'Withdraw(Transfer)', value: 'withtransfer' },
+        { text: 'Betting Amount', value: 'betamount' },
+        { text: 'Rake', value: 'rake' },
+        { text: 'User Holding Money', value: 'userholding' },
+        { text: 'Operating Head Office Profit', value: 'offprofit' },
+        { text: 'Head Office Money', value: 'offmoney' },
+        { text: 'Money of Low Rank', value: 'moneylowrank' },
+        { text: 'Low Rank', value: 'lowrank' },
+      ],
+      items: []
     }
   }
-}
-
-  // 2. Define some routes
-  // Each route should map to a component. The "component" can
-  // either be an actual component constructor created via
-  // Vue.extend(), or just a component options object.
-  // We'll talk about nested routes later.
-  const routes = [
-
-    { path: '/foo', component: Foo },//internal routing example
-    { path: '/bar', component: Bar },//internal routing example
-    { path: '/grid2', component: grid2 },// external routing template example
-  
-    { path: '/user/:id',//example of routing with parameters
-          components: {default: User},
-          props: { default: true }     
-    }     
-  ]
-  // 3. Create the router instance and pass the `routes` option
-  // You can pass in additional options here, but let's
-  // keep it simple for now.
-  const router = new VueRouter({
-    //hash mode will always use the # in the url when accessing the route the tag route link should look alot like the path in routes above
-    //hash mode works with back and direct link access from url BUT it needs the hash to navigate
-    //if a non existing url acess the route without any found link in hash mode e.g public/#/asf it will return the index.html
-
-    mode: 'hash',
-    routes,//we just seperate the route on its on variable to simplify it
-   // base: window.location.pathName,
-  });
-  // 4. Create and mount the root instance.
-  // Make sure to inject the router with the router option to make the
-  // whole app router-aware.
-  const app = new Vue({
-    el:'#app',
-    router,
-    data: {
-      msg: 'Hello World',
-      title:'someTitile',
-      posts: [
-        { id: 1, title: 'My journey with Vue' },
-        { id: 2, title: 'Blogging with Vue' },
-        { id: 3, title: 'Why Vue is so fun' },
-      ],
-    },components:{
-      m:'m'
-    }
-  });
+}) ;
   // Now the app has started!
   </script>
